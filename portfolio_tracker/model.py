@@ -38,7 +38,7 @@ class Portfolio:
         enriched_assets = []
         for asset in self.assets:
             # The toolkit returns a pandas DataFrame, so we access prices like this
-            current_price = prices.loc[asset.ticker, 'price']
+            current_price = prices.loc[asset.ticker, 'Previous Close']
             
             enriched_data = {
                 "ticker": asset.ticker,
