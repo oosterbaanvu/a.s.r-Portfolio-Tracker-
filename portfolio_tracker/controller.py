@@ -26,3 +26,8 @@ class Controller:
         """Gets enriched data from the model and tells the view to display it."""
         portfolio_data = self.portfolio.get_enriched_portfolio_data()
         view.display_portfolio(portfolio_data)
+
+    def show_analysis(self):
+        """Gets the analysis from the model and tells the view to display it."""
+        analysis_data = self.portfolio.get_portfolio_analysis()
+        view.display_portfolio_analysis(analysis_data)
