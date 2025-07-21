@@ -91,6 +91,11 @@ Generates an image file with the historical price chart for a single ticker.
     ```
     *(This will create a file named `MSFT_price_chart.png` in your project folder.)*
 
+    ```bash
+    python main.py graph
+    ```
+    *(This will plot all graphs in your portfolio.)*
+
 ### Run Simulation
 Runs the 15-year, 100,000-path Monte Carlo simulation on your current portfolio.
 
