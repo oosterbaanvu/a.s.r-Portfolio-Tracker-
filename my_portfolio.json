@@ -1,0 +1,30 @@
+[
+    {
+        "ticker": "AAPL",
+        "sector": "Technology",
+        "asset_class": "Stock",
+        "quantity": 10.0,
+        "purchase_price": 150.25
+    },
+    {
+        "ticker": "MSFT",
+        "sector": "Technology",
+        "asset_class": "Stock",
+        "quantity": 5.0,
+        "purchase_price": 300.5
+    },
+    {
+        "ticker": "GOOGL",
+        "sector": "Technology",
+        "asset_class": "Stock",
+        "quantity": 10.0,
+        "purchase_price": 170.5
+    },
+    {
+        "ticker": "VTI",
+        "sector": "Total Market",
+        "asset_class": "ETF",
+        "quantity": 5.0,
+        "purchase_price": 270.0
+    }
+]
