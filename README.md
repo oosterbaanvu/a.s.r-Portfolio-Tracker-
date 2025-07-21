@@ -60,7 +60,10 @@ Adds a new asset to your portfolio and saves it.
     python main.py add AAPL Technology Stock 10 150.25
     python main.py add VTI "Total Market" ETF 5 270.00
     ```
-    
+    *(This repository includes a pre-filled my_portfolio.json file containing a sample portfolio.
+    If you want to start fresh with an empty portfolio, simply delete the my_portfolio.json file.
+    The application will automatically create a new, empty portfolio file the next time you add an asset.
+    )*
 
 ### Show Portfolio
 Displays all assets in your portfolio with their current market value.
