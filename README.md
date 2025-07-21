@@ -6,12 +6,11 @@ Follow these steps to set up and run the project on your local machine.
 1.  **Clone the Repository**
     Open your terminal or command prompt and run:
     ```bash
-    git clone <your-repository-url>
-    cd investment_cli
+    git clone https://github.com/oosterbaanvu/a.s.r-Portfolio-Tracker-.git
+    cd a.s.r-Portfolio-Tracker-
     ```
 
 2.  **Create a Python Virtual Environment**
-    It is highly recommended to use a virtual environment to manage project dependencies.
     ```bash
     python -m venv venv
     ```
@@ -61,7 +60,7 @@ Adds a new asset to your portfolio and saves it.
     python main.py add AAPL Technology Stock 10 150.25
     python main.py add VTI "Total Market" ETF 5 270.00
     ```
-    *Note: Use quotes for multi-word arguments like "Total Market".*
+    
 
 ### Show Portfolio
 Displays all assets in your portfolio with their current market value.
@@ -80,7 +79,7 @@ Shows the total portfolio value and the weight distribution by asset, sector, an
     ```
 
 ### Graph Historical Price
-Generates a `.png` image file with the historical price chart for a single ticker.
+Generates an image file with the historical price chart for a single ticker.
 
 -   **Format:** `python main.py graph <TICKER>`
 -   **Example:**
@@ -96,8 +95,3 @@ Runs the 15-year, 100,000-path Monte Carlo simulation on your current portfolio.
     ```bash
     python main.py simulate
     ```
-
-### Show Help
-To see the list of available commands at any time, run:
-```bash
-python main.py -h
