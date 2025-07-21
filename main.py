@@ -8,9 +8,9 @@ def main():
     portfolio = Portfolio(api_key=FMP_API_KEY)
     controller = Controller(portfolio)
 
-    # Set up the final command-line interface
     parser = argparse.ArgumentParser(description="Investment Portfolio Tracker CLI")
-    subparsers = parser.add_subparsers(dest="command", help="Available commands", required=True)
+    # 'required=True' is removed to allow 'graph' command with no tickers
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Command: add
     add_parser = subparsers.add_parser("add", help="Add an asset to the portfolio.")
@@ -27,15 +27,21 @@ def main():
     subparsers.add_parser("analyze", help="Analyze the portfolio.")
 
     # Command: graph
-    graph_parser = subparsers.add_parser("graph", help="Graph historical price for a ticker.")
-    graph_parser.add_argument("ticker", type=str, help="The stock ticker to graph (e.g., AAPL).")
-
+    graph_parser = subparsers.add_parser("graph", help="Graph historical price. Graphs all portfolio assets if no tickers are specified.")
+    # nargs='*' allows for zero or more tickers
+    graph_parser.add_argument("tickers", type=str, nargs='*', help="The stock ticker(s) to graph (e.g., AAPL MSFT).")
+    
     # Command: simulate
     subparsers.add_parser("simulate", help="Run the 15-year portfolio simulation.")
     
     args = parser.parse_args()
 
-    # Execute the appropriate command based on user input
+    # Handle case where no command is given
+    if not args.command:
+        parser.print_help()
+        return
+
+    # Execute the appropriate command
     if args.command == "add":
         controller.add_asset(args.ticker, args.sector, args.asset_class, args.quantity, args.price)
     elif args.command == "show":
@@ -43,7 +49,8 @@ def main():
     elif args.command == "analyze":
         controller.show_analysis()
     elif args.command == "graph":
-        controller.create_graph_for_ticker(args.ticker)
+        print(f"\nGenerating graph...")
+        controller.create_graph_for_ticker(args.tickers)
     elif args.command == "simulate":
         controller.run_and_show_simulation()
 

@@ -5,7 +5,6 @@ class Controller:
     def __init__(self, portfolio: model.Portfolio):
         self.portfolio = portfolio
         self.portfolio_filepath = "my_portfolio.json"
-        # Load the portfolio from file when the controller is created
         self.portfolio.load_from_file(self.portfolio_filepath)
 
     def add_asset(self, ticker, sector, asset_class, quantity_str, price_str):
@@ -18,7 +17,6 @@ class Controller:
                 purchase_price=float(price_str)
             )
             self.portfolio.add_asset(asset)
-            # Save the updated portfolio to file
             self.portfolio.save_to_file(self.portfolio_filepath)
             view.display_message(f"Added {asset.quantity} of {asset.ticker} to portfolio.")
         except ValueError:
@@ -34,9 +32,19 @@ class Controller:
         analysis_data = self.portfolio.get_portfolio_analysis()
         view.display_portfolio_analysis(analysis_data)
         
-    def create_graph_for_ticker(self, ticker: str):
-        historical_data = self.portfolio.get_historical_data(ticker)
-        view.create_price_graph(historical_data, ticker)
+    def create_graph_for_ticker(self, tickers: list):
+        # If the user provided no tickers, get them all from the portfolio
+        if not tickers:
+            tickers = self.portfolio.get_all_tickers()
+            if not tickers:
+                view.display_error("Your portfolio is empty. Add assets before creating a graph.")
+                return
+
+        # Remove duplicate tickers to prevent plotting the same line twice
+        unique_tickers = sorted(list(set(tickers)))
+        
+        historical_data = self.portfolio.get_historical_data(unique_tickers)
+        view.create_price_graph(historical_data, unique_tickers)
         
     def run_and_show_simulation(self):
         results = self.portfolio.run_simulation()

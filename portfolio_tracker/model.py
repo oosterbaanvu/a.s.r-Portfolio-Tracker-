@@ -12,6 +12,20 @@ class Asset:
     quantity: float
     purchase_price: float
 
+import dataclasses
+import json
+import pandas as pd
+import numpy as np
+from financetoolkit import Toolkit
+
+@dataclasses.dataclass
+class Asset:
+    ticker: str
+    sector: str
+    asset_class: str
+    quantity: float
+    purchase_price: float
+
 class Portfolio:
     def __init__(self, api_key: str):
         self.assets = []
@@ -90,13 +104,13 @@ class Portfolio:
             "class_weights": class_weights.to_dict()
         }
 
-    def get_historical_data(self, ticker: str):
-        """Gets historical data for a single ticker."""
+    def get_historical_data(self, tickers: list):
+        """Gets historical data for a list of tickers."""
         try:
-            company = Toolkit(tickers=ticker.upper(), api_key=self.api_key)
-            return company.get_historical_data()
+            companies = Toolkit(tickers=[t.upper() for t in tickers], api_key=self.api_key)
+            return companies.get_historical_data()
         except Exception as e:
-            print(f"❌ Could not fetch historical data for {ticker}: {e}")
+            print(f"❌ Could not fetch historical data for {', '.join(tickers)}: {e}")
             return None
 
     def run_simulation(self):
@@ -141,3 +155,7 @@ class Portfolio:
             "5th_percentile": np.percentile(final_values, 5),
             "95th_percentile": np.percentile(final_values, 95),
         }
+
+    def get_all_tickers(self) -> list:
+        """Returns a list of all tickers in the portfolio."""
+        return [asset.ticker for asset in self.assets]

@@ -38,17 +38,37 @@ def display_portfolio_analysis(analysis_data: dict):
     for asset_class, weight in analysis_data['class_weights'].items(): class_table.add_row(asset_class, f"{weight:.2%}")
     console.print(asset_table, sector_table, class_table)
 
-def create_price_graph(data, ticker: str):
-    # ... (This function remains the same as before, no changes needed) ...
+def create_price_graph(data, tickers: list):
+    """Creates and saves a price chart from historical data."""
     if data is None or data.empty:
-        display_error(f"No data available to graph for {ticker}."); return
-    data.index = data.index.to_timestamp()
-    plt.figure(figsize=(10, 5)); plt.plot(data.index, data['Close']); plt.title(f"{ticker} Historical Price")
-    plt.xlabel("Date"); plt.ylabel("Price (USD)"); plt.grid(True)
-    filename = f"{ticker}_price_chart.png"
-    plt.savefig(filename)
-    display_message(f"Graph saved as {filename}")
+        display_error(f"No data available to graph for {', '.join(tickers)}.")
+        return
 
+    # Convert the index to a plottable timestamp format right away.
+    data.index = data.index.to_timestamp()
+
+    plt.figure(figsize=(12, 6))
+    
+    # This single loop now handles both one and multiple tickers correctly.
+    for ticker in tickers:
+        # We explicitly select the 'Close' column for the specified ticker.
+        if ticker in data['Close'].columns:
+            plt.plot(data.index, data['Close'][ticker], label=f'{ticker} Close Price')
+
+    # Create a dynamic title
+    title_text = f"Historical Price for {', '.join(tickers)}"
+    
+    plt.title(title_text)
+    plt.xlabel("Date")
+    plt.ylabel("Price (USD)")
+    plt.grid(True)
+    plt.legend()
+    
+    filename = f"{'_'.join(tickers)}_price_chart.png"
+    plt.savefig(filename)
+    
+    display_message(f"Graph saved as {filename}")
+    
 def display_simulation_results(results: dict):
     """Displays the simulation results in a formatted table."""
     if not results:
